@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 typedef struct man {
-    char name[30];
-    int number[20];
+    char* name;
+    int* number;
     struct man* next;
     struct man* prev;
 } record;
@@ -17,12 +17,12 @@ int INSERT (help* l, record* new)
 {
     if (l->head == NULL)
     {
-        new->next = NULL;
+        l->head = new;
         return 0;
     }
     record* f = malloc(sizeof(record));
-    f = l->head;
-    while (f != NULL)
+    f = (l->head);
+    while (f->next != NULL)
     {
         if (new->name == f->name)
         {
@@ -33,6 +33,13 @@ int INSERT (help* l, record* new)
         }
         f = f->next;
     }
+    if (new->name == f->name)
+    {
+        printf("Changed. Old value = %d", f->number);
+        f->number = new->number;
+        free(new);
+        return 0;
+    }
     l->head = new;
     new->next = l->head;
     (l->head)->prev = new;
@@ -40,18 +47,24 @@ int INSERT (help* l, record* new)
     return 0;
 }
 
-int FIND(help* l, char nname)
+int FIND(help* l, char* nname)
 {
     record* f = malloc(sizeof(record));
     f = l->head;
-    while (f != NULL)
+    while (f->next != NULL)
     {
-        if (nname == f->name)
+        printf("here");
+        if (strcmp(nname, f->name) == 0)
         {
             printf("%d", f->number);
             return 0;
         }
         f = f->next;
+    }
+    if (strcmp(nname, f->name) == 0)
+    {
+        printf("%d", f->number);
+        return 0;
     }
     printf("NO");
     return 0;
@@ -59,6 +72,8 @@ int FIND(help* l, char nname)
 
 int main()
 {
+    char name[30];
+    int number[20];
     char nname[30];
     char comand[6];
     help *l = malloc(sizeof(help));
@@ -70,14 +85,14 @@ int main()
         {
             record* new = malloc(sizeof(record));
             scanf("%s", new->name);
-            scanf("%s", new->number);
+            scanf("%d", new->number);
             new->next = NULL;
             new->prev = NULL;
             INSERT(l, new);
         }
-        if(strcmp(comand, "FIND") == 0)
+        if (strcmp(comand, "FIND") == 0)
         {
-            scanf("%s", nname);
+            scanf("%s", &nname);
             FIND(l, nname);
         }
     }
