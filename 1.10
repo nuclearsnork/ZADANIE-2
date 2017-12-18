@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct man {
+    char name[30];
+    int number[20];
+    struct man* next;
+    struct man* prev;
+} record;
+
+typedef struct help_p {
+    record* head;
+    record* end;
+} help;
+
+int INSERT (help* l, record* new)
+{
+    if (l->head == NULL)
+    {
+        new->next = NULL;
+        return 0;
+    }
+    record* f = malloc(sizeof(record));
+    f = l->head;
+    while (f != NULL)
+    {
+        if (new->name == f->name)
+        {
+            printf("Changed. Old value = %d", f->number);
+            f->number = new->number;
+            free(new);
+            return 0;
+        }
+        f = f->next;
+    }
+    l->head = new;
+    new->next = l->head;
+    (l->head)->prev = new;
+    printf("OK");
+    return 0;
+}
+
+int FIND(help* l, char nname)
+{
+    record* f = malloc(sizeof(record));
+    f = l->head;
+    while (f != NULL)
+    {
+        if (nname == f->name)
+        {
+            printf("%d", f->number);
+            return 0;
+        }
+        f = f->next;
+    }
+    printf("NO");
+    return 0;
+}
+
+int main()
+{
+    char nname[30];
+    char comand[6];
+    help *l = malloc(sizeof(help));
+    l->head = NULL;
+    l->end = NULL;
+    while(scanf("%s", comand) != EOF)
+    {
+        if (strcmp(comand, "INSERT") == 0)
+        {
+            record* new = malloc(sizeof(record));
+            scanf("%s", new->name);
+            scanf("%s", new->number);
+            new->next = NULL;
+            new->prev = NULL;
+            INSERT(l, new);
+        }
+        if(strcmp(comand, "FIND") == 0)
+        {
+            scanf("%s", nname);
+            FIND(l, nname);
+        }
+    }
+    return 0;
+}
