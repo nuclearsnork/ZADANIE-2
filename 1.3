@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct element {
+    int a;
+    struct element* next;
+    struct element* prev;
+} usel;
+
+typedef struct help_p {
+    struct help_p* head;
+    struct help_p* end;
+} help;
+
+int list_new()
+{
+    help *l = malloc(sizeof(help));
+    l->head = NULL;
+    l->end = NULL;
+    usel *frst = malloc(sizeof(usel));
+    frst->next = NULL;
+    frst->prev = NULL;
+    l->head = frst;
+    return frst, l;
+}
+
+ int list_delete(help *l)
+{
+    usel *h = malloc(sizeof(usel));
+    h = l->head;
+    while (h != NULL)
+    {
+
+        h = h->next;
+        free(h->prev);
+    }
+    free(l);
+    return 0;
+}
+
+int push(help *l, usel *a)
+{
+    usel *h = malloc(sizeof(usel));
+    h = l->end;
+    h->next = a;
+    a->prev = h;
+    l->end = a;
+    return 0;
+}
+
+int pop(help *l, usel *x)
+{
+    x = l->end;
+    return 0;
+}
+
+int unshift(help *l, usel *a)
+{
+    usel *h = malloc(sizeof(usel));
+    h = l->head;
+    h->prev = a;
+    a->next = h;
+    l->head = a;
+    return 0;
+}
+
+int shift(help* l, usel* x)
+{
+    x = l->head;
+    return 0;
+}
+
+int reverse(help *l)
+{
+    usel *h = malloc(sizeof(usel));
+    usel *d = malloc(sizeof(usel));
+    h = l->head;
+    d = l->end;
+    while (h != d)
+    {
+        h = d;
+        h = h->prev;
+        d = d->next;
+    }
+    return 0;
+}
