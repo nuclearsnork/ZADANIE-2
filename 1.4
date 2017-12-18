@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    int c1 = 0, c2 = 0, i;
+    char str[100];
+    scanf("%str", str);
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] == '(' )
+        {
+            c1++;
+        }
+        if (str[i] == ')' )
+        {
+            c1--;
+        }
+        if(str[i] == '{')
+        {
+            c2++;
+        }
+        else
+        {
+            c2--;
+        }
+        if (c2 < 0 || c1 < 0)
+        {
+            break;
+            printf("No %d %d", c1, c2);
+            return 0;
+        }
+    }
+    if(c1 > 0 || c2 > 0)
+    {
+        printf("No %d %d", c1, c2);
+    }
+    else
+    {
+        printf("Yes");
+    }
+    return 0;
+}
